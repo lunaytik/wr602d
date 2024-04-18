@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Choose your subscription{% endblock %}
+
+{% block body %}
+    <h1>Choose your subscription</h1>
+
+    <div>
+        <h2>Current user subscription: {{ user.subscription.title }}</h2>
+
+        {% for subscription in subscriptions %}
+            <div {% if user.subscription == subscription %}style="color: red; border: 1px solid red;"{% endif %}>
+                <p>{{ subscription.title }}</p>
+                <p>{{ subscription.description }}</p>
+                <p>Pdf Limit: {{ subscription.pdfLimit }}</p>
+                <p>Price: {% if subscription.price != 0 %}{{ subscription.price }}€{% else %}Free{% endif %}</p>
+                {% if user.subscription != subscription %}
+                    <a href="{{ path('app_subscription_change', {id: subscription.id}) }}">Choose</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
