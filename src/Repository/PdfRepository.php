@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Pdf;
+use App\Entity\User;
+use DateInterval;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,6 +22,23 @@ class PdfRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Pdf::class);
     }
+
+    public function countPdfGeneratedByUserOnDate(User $user)
+    {
+        $startSubscriptionDate = $user->getSubscriptionEndAt()->sub(DateInterval::createFromDateString('1 month'));
+        $now = (new \DateTimeImmutable());
+
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->where('p.owner = :user')
+            ->andWhere('p.createdAt BETWEEN :subscriptionStart AND :now')
+            ->setParameter('user', $user)
+            ->setParameter('subscriptionStart', $startSubscriptionDate)
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 
     //    /**
     //     * @return Pdf[] Returns an array of Pdf objects

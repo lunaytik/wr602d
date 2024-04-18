@@ -5,11 +5,7 @@
 {% block body %}
     <h1>Pdf Generation</h1>
 
-    {% for message in app.flashes('success') %}
-        <div>
-            {{ message }}
-        </div>
-    {% endfor %}
+    <p>Remaining PDF Conversion: {{ remainingCount }}</p>
 
     {{ form_start(form) }}
         {{ form_row(form) }}
