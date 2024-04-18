@@ -11,7 +11,7 @@ class MicroService
     {
     }
 
-    public function convertUrlToPdf(string $url): string
+    public function convertUrlToPdf(string $url, string $pdfTitle): string
     {
         try {
             $response = $this->client->request(
@@ -34,7 +34,7 @@ class MicroService
 
         $pdfContent = $response->getContent();
 
-        $pdfFilePath = 'uploads/' . 'test' . '.pdf';
+        $pdfFilePath = 'uploads/' . $pdfTitle . '.pdf';
         file_put_contents($pdfFilePath, $pdfContent);
 
         return $pdfFilePath;
