@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile - {{ user.firstname }} {{ user.lastname }}{% endblock %}
+
+{% block body %}
+    <h1>Profile</h1>
+    <h2>User Informations</h2>
+    <div>
+        <p>Email: {{ user.email }}</p>
+        <p>Password: ******</p>
+    </div>
+    <div>
+        <p>Firstname: {{ user.firstname }}</p>
+        <p>Lastname: {{ user.lastname }}</p>
+    </div>
+    <h2>User Subscription</h2>
+    <div>
+        <p>Type: {{ user.subscription.title }}</p>
+        <p>Remaining Pdf Generation: {{ remainingCount }} / {{ user.subscription.pdfLimit }}</p>
+        <p>End Date: {{ user.subscriptionEndAt|date('Y-m-d H:i:s') }}</p>
+    </div>
+    <h2>Generated PDF History</h2>
+    {% for pdf in user.pdfs %}
+        <div>
+            {{ pdf.title }}
+            <a href="{{ pdf.filePath  }}" target="_blank">Show Generated File</a>
+        </div>
+    {% endfor %}
+{% endblock %}
