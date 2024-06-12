@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Fix PSR Coding Standards Issues
+        run: ./vendor/bin/phpcbf --standard=PSR2 src/
+
       - name: Run PSR Coding Standards
         run: |
           composer require --dev squizlabs/php_codesniffer
