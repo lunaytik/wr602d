@@ -34,7 +34,7 @@ class MicroService
 
         $pdfContent = $response->getContent();
 
-        $pdfFilePath = 'uploads/' . $pdfTitle . '.pdf';
+        $pdfFilePath = 'uploads/' . $pdfTitle . '_' . uniqid() . '.pdf';
         file_put_contents($pdfFilePath, $pdfContent);
 
         return $pdfFilePath;
