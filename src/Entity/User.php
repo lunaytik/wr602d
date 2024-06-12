@@ -56,6 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Pdf>
      */
     #[ORM\OneToMany(targetEntity: Pdf::class, mappedBy: 'owner')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $pdfs;
 
     #[ORM\Column(nullable: true)]
