@@ -1,0 +1,58 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, dom
+          tools: composer, phpunit
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Fix PSR Coding Standards Issues
+        run: |
+          composer require --dev squizlabs/php_codesniffer
+          ./vendor/bin/phpcbf --standard=PSR12 src/
+
+      - name: Run PSR Coding Standards
+        run:
+          ./vendor/bin/phpcs --standard=PSR2 src/
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit --coverage-text
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Cypress tests
+        run: npx cypress run
