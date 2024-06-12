@@ -48,10 +48,12 @@ class PdfController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Successfully convert the url to pdf');
+            return $this->redirectToRoute('app_user_profile');
         }
 
         return $this->render('pdf/index.html.twig', [
             'form' => $form->createView(),
+            'user' => $this->getUser(),
             'remainingCount' => $remainingCount
         ]);
     }
