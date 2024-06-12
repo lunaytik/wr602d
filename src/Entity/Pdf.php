@@ -6,6 +6,7 @@ use App\Repository\PdfRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PdfRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Pdf
 {
     #[ORM\Id]
@@ -21,6 +22,9 @@ class Pdf
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $filePath = null;
 
     public function getId(): ?int
     {
@@ -61,5 +65,23 @@ class Pdf
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(string $filePath): static
+    {
+        $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 }

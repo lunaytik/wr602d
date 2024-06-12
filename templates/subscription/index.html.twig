@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gotenberg - Subscriptions{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mb-4 mt-8 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Choose your <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">subscription</span></h1>
+    <section class="bg-gray-900">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-white">Current user subscription: <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ user.subscription.title }}</span></h2>
+            <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+                {% for subscription in subscriptions %}
+                    <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                        <h3 class="mb-4 text-2xl font-semibold">{{ subscription.title }}</h3>
+                        <p class="font-light sm:text-lg text-gray-400">{{ subscription.description }}</p>
+                        <div class="flex justify-center items-baseline my-8">
+                            <span class="mr-2 text-5xl font-extrabold">{{ subscription.price }}€</span>
+                            <span class="text-gray-400">/month</span>
+                        </div>
+                        <!-- List -->
+                        <ul role="list" class="mb-8 space-y-4 text-left">
+                            <li class="flex items-center space-x-3">
+                                {% include "components/icons/tick-icon.html.twig" %}
+                                <span>File generation limit: <span class="font-semibold">{{ subscription.pdfLimit }} PDFs</span></span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <!-- Icon -->
+                                {% include "components/icons/tick-icon.html.twig" %}
+                                <span>Keep a <span class="font-semibold">history</span> of PDFs</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                {% include "components/icons/tick-icon.html.twig" %}
+                                <span><span class="font-semibold">Store and manage</span> your PDFs securely </span>
+                            </li>
+                        </ul>
+                        <a href="{{ path('app_subscription_change', {id: subscription.id}) }}" class="bg-primary-600 hover:bg-primary-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white  focus:ring-primary-900 {% if subscription == user.subscription %}pointer-events-none bg-primary-900 text-gray-600{% endif %}">{% if subscription == user.subscription %}Current plan{% else %}Choose this plan{% endif %}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
