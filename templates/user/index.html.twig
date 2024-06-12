@@ -1,29 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profile - {{ user.firstname }} {{ user.lastname }}{% endblock %}
+{% block title %}Gotenberg - Profile ({{ user.firstname }} {{ user.lastname }}){% endblock %}
 
 {% block body %}
-    <h1>Profile</h1>
-    <h2>User Informations</h2>
-    <div>
-        <p>Email: {{ user.email }}</p>
-        <p>Password: ******</p>
-    </div>
-    <div>
-        <p>Firstname: {{ user.firstname }}</p>
-        <p>Lastname: {{ user.lastname }}</p>
-    </div>
-    <h2>User Subscription</h2>
-    <div>
-        <p>Type: {{ user.subscription.title }}</p>
-        <p>Remaining Pdf Generation: {{ remainingCount }} / {{ user.subscription.pdfLimit }}</p>
-        <p>End Date: {{ user.subscriptionEndAt|date('Y-m-d H:i:s') }}</p>
-    </div>
-    <h2>Generated PDF History</h2>
-    {% for pdf in user.pdfs %}
-        <div>
-            {{ pdf.title }}
-            <a href="{{ pdf.filePath  }}" target="_blank">Show Generated File</a>
+    <section class="bg-gray-900 flex flex-1">
+        <div class="flex flex-col flex-1 items-center justify-center px-6 py-8 mx-auto">
+            <div class="w-full rounded-lg shadow border xl:p-0 bg-gray-800 border-gray-700">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 class="text-2xl font-extrabold leading-tight tracking-tight text-white">Profile</h1>
+                        <h2 class="text-xl font-bold leading-tight tracking-tight text-white">User Informations</h2>
+                    <div>
+                        <div class="flex">
+                            <div class="flex-1">
+                                <div class="mb-4">
+                                    <p class="text-lg font-semibold text-white">Email</p>
+                                    <p>{{ user.email }}</p>
+                                </div>
+                                <div class="mb-4">
+                                    <p class="text-lg font-semibold text-white">Password</p>
+                                    <p>******</p>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="mb-4">
+                                    <p class="text-lg font-semibold text-white">Firstname</p>
+                                    <p>{{ user.firstname }}</p>
+                                </div>
+                                <div class="mb-4">
+                                    <p class="text-lg font-semibold text-white">Lastname</p>
+                                    <p>{{ user.lastname }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-bold leading-tight tracking-tight text-white">User Subscription</h2>
+                    <div>
+                        <div class="flex flex-col">
+                            <div class="mb-4">
+                                <p class="text-lg font-semibold text-white">Type</p>
+                                <p>{{ user.subscription.title }}</p>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-lg font-semibold text-white">Remaining Generations</p>
+                                <p>{{ remainingCount }} / {{ user.subscription.pdfLimit }}</p>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-lg font-semibold text-white">Subscription End Date</p>
+                                <p>{{ user.subscriptionEndAt|date('Y-m-d H:i:s') }}</p>
+                            </div>
+                            <a href="{{ path('app_subscription') }}" class="w-fit focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-4 bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-blue-800">Change Subscription Type</a>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-bold leading-tight tracking-tight text-white">Generated PDF History</h2>
+                    <div class="flow-root">
+                        <ul role="list" class="divide-y divide-gray-700">
+                            {% for pdf in user.pdfs %}
+                                <li class="py-3 sm:py-4">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                        </div>
+                                        <div class="flex-1 min-w-0 ms-4">
+                                            <p class="text-sm font-medium truncate text-white">
+                                                {{ pdf.title }}
+                                            </p>
+                                            <p class="text-sm truncate text-gray-400">
+                                                {{ pdf.createdAt|date('Y-m-d H:i:s') }}
+                                            </p>
+                                        </div>
+                                        <div class="inline-flex items-center text-base font-semibold text-white hover:text-white">
+                                            <a href="{{ pdf.filePath }}" target="_blank" class="group flex items-center gap-1 text-gray-400 hover:text-white">
+                                                {% include 'components/icons/download-icon.html.twig' with { 'classes': ['text-gray-400'] } %}
+                                                Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endfor %}
+    </section>
 {% endblock %}

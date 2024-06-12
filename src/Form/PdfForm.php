@@ -21,14 +21,30 @@ class PdfForm extends AbstractType
                 'constraints' => [
                     new Length(['min' => 1]),
                     new NotBlank()
-                ]
+                ],
+                'attr' => [
+                    'placeholder' => 'Title',
+                    'class' => 'border sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 
+                    placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
+                ],
+                'label_attr' => [
+                    'class' => 'block mb-2 text-sm font-medium text-white'
+                ],
             ])
             ->add('url', UrlType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new Url(),
                     new NotBlank()
-                ]
+                ],
+                'attr' => [
+                    'placeholder' => 'https://example.com',
+                    'class' => 'border sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 
+                    placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
+                ],
+                'label_attr' => [
+                    'class' => 'block mb-2 text-sm font-medium text-white'
+                ],
             ])
         ;
     }
